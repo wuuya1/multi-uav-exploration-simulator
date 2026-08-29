@@ -1,0 +1,16 @@
+material Mark/Diffuse_h
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture gun_man.jpg
+				filtering anistropic
+				max_anisotropy 16
+			}
+		}
+	}
+}

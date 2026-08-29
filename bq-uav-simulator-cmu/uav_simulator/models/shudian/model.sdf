@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="shudian">
+    <static>true</static>
+    <link name="shudian_link">
+      <collision name="collision">
+        <geometry>
+          <mesh>
+          <scale>0.002 0.002 0.002</scale>
+            <uri>model://shudian/meshes/lowline.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+          <scale>0.002 0.002 0.002</scale>
+            <uri>model://shudian/meshes/lowline.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
+

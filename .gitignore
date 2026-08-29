@@ -1,0 +1,21 @@
+fast_multi_robot_exploration-master
+
+# Publish only the docker_drone5 simulation scenario for now.
+bq-uav-simulator-cmu/uav_simulator/launch/*.launch
+bq-uav-simulator-cmu/uav_simulator/launch/*.launch.bak
+!bq-uav-simulator-cmu/uav_simulator/launch/docker_drone5.launch
+
+# docker_drone5.launch uses this world; keep all other worlds local.
+bq-uav-simulator-cmu/uav_simulator/worlds/**/*.world
+bq-uav-simulator-cmu/uav_simulator/worlds/**/*.world.bak
+!bq-uav-simulator-cmu/uav_simulator/worlds/test/world_plustwo2.world
+
+README_old.md
+
+# Unused environment assets that exceed GitHub's 100 MB per-file limit.
+bq-uav-simulator-cmu/uav_simulator/models/campus/meshes/campus.dae
+bq-uav-simulator-cmu/uav_simulator/models/dae/chengqu-jingjian-pingtan-20w.dae
+bq-uav-simulator-cmu/uav_simulator/models/dae/chengqu_qiege2_jingjian_jiaozhengo.dae
+bq-uav-simulator-cmu/uav_simulator/models/dae/chengqu_qiege2_jingjian_jiaozhengo_no_materials.dae
+bq-uav-simulator-cmu/uav_simulator/models/dae/complex_jingjian_no_material.dae
+探索算法Docker部署.md

@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<sdf version="1.6">
+<model name="broken_window">
+  <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <scale>0.4 0.4 1</scale>
+            <uri>model://broken_window/meshes/broken_window.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="window">
+        <geometry>
+          <mesh>
+            <scale>0.4 0.4 1</scale>
+            <uri>model://broken_window/meshes/broken_window.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

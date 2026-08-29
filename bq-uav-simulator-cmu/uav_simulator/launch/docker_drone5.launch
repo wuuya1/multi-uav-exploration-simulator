@@ -1,0 +1,184 @@
+<launch>
+  <arg name="verbose" value="false"/>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+  <arg name="world_name" value="$(find uav_simulator)/worlds/test/world_plustwo2.world" />
+
+  <!-- launch the custom world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="world_name" value="$(arg world_name)"/>
+        <arg name="verbose" value="$(arg verbose)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="debug" value="$(arg debug)" />
+  </include>
+
+  <group ns="drone1">
+    <arg name="mymodel" default="$(find uav_simulator)/urdf/xacro/drone_mid360_gpu.gazebo " />
+    <param name="quadcopter_description" command="$(find xacro)/xacro --inorder $(arg mymodel) topic:=drone1/scan"/>
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-urdf -model drone1 -param quadcopter_description -x 24.91 -y -40.84 -z 2.0"/>
+    <node name="keyboard_control" pkg="uav_simulator" type="keyboard_control" >
+    	<remap from="/CERLAB/quadcopter/cmd_vel" to="CERLAB/quadcopter/cmd_vel"/>
+    	<remap from="/CERLAB/quadcopter/land" to="CERLAB/quadcopter/land"/>
+    	<remap from="/CERLAB/quadcopter/posctrl" to="CERLAB/quadcopter/posctrl"/>
+    	<remap from="/CERLAB/quadcopter/reset" to="CERLAB/quadcopter/reset"/>
+    	<remap from="/CERLAB/quadcopter/takeoff" to="CERLAB/quadcopter/takeoff"/>
+    	<remap from="/CERLAB/quadcopter/vel_mode" to="CERLAB/quadcopter/vel_mode"/>
+    </node>
+    <node name="msg_translator" pkg="uav_simulator" type="msgTransForRacer" output="screen">
+    	<remap from="~pointonetopic" to="scan"/>
+    	<remap from="~pointtwotopic" to="pointcloud_lidar"/>
+    	<remap from="~lidarPointInWorld" to="pointcloud"/>
+    	<remap from="~odomtopic" to="CERLAB/quadcopter/odom"/>
+    	<remap from="~sensorPoseTopic" to="CERLAB/quadcopter/sensor_pose"/>
+    	<remap from="~quadCommand" to="/planning/pos_cmd_1"/>
+    	<remap from="~mavCommand" to="CERLAB/quadcopter/cmd_acc"/>
+    	<remap from="~setPointPose" to="CERLAB/quadcopter/setpoint_pose"/>
+    	<remap from="~takeoff" to="CERLAB/quadcopter/takeoff"/>
+    	
+    	<param name="lidar/rollDegree" value="0" type="double"/>
+    	<param name="lidar/pitchDegree" value="0" type="double"/>
+    	<param name="lidar/yawDegree" value="0" type="double"/>
+    	<param name="lidar/x" value="0" type="double"/>
+    	<param name="lidar/y" value="0" type="double"/>
+    	<param name="lidar/z" value="0.1" type="double"/>
+    </node>
+	</group> 
+	
+	<group ns="drone2">
+    <arg name="mymodel" default="$(find uav_simulator)/urdf/xacro/drone_mid360_gpu.gazebo " />
+    <param name="quadcopter_description" command="$(find xacro)/xacro --inorder $(arg mymodel) topic:=drone2/scan"/>
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-urdf -model drone2 -param quadcopter_description -x 29.26 -y -23.97 -z 2.0"/>
+    <node name="keyboard_control" pkg="uav_simulator" type="keyboard_control" >
+    	<remap from="/CERLAB/quadcopter/cmd_vel" to="CERLAB/quadcopter/cmd_vel"/>
+    	<remap from="/CERLAB/quadcopter/land" to="CERLAB/quadcopter/land"/>
+    	<remap from="/CERLAB/quadcopter/posctrl" to="CERLAB/quadcopter/posctrl"/>
+    	<remap from="/CERLAB/quadcopter/reset" to="CERLAB/quadcopter/reset"/>
+    	<remap from="/CERLAB/quadcopter/takeoff" to="CERLAB/quadcopter/takeoff"/>
+    	<remap from="/CERLAB/quadcopter/vel_mode" to="CERLAB/quadcopter/vel_mode"/>
+    </node>
+    <node name="msg_translator" pkg="uav_simulator" type="msgTransForRacer" output="screen">
+    	<remap from="~pointonetopic" to="scan"/>
+    	<remap from="~pointtwotopic" to="pointcloud_lidar"/>
+    	<remap from="~lidarPointInWorld" to="pointcloud"/>
+    	<remap from="~odomtopic" to="CERLAB/quadcopter/odom"/>
+    	<remap from="~sensorPoseTopic" to="CERLAB/quadcopter/sensor_pose"/>
+    	<remap from="~quadCommand" to="/planning/pos_cmd_2"/>
+    	<remap from="~mavCommand" to="CERLAB/quadcopter/cmd_acc"/>
+    	<remap from="~setPointPose" to="CERLAB/quadcopter/setpoint_pose"/>
+    	<remap from="~takeoff" to="CERLAB/quadcopter/takeoff"/>
+    	
+    	<param name="lidar/rollDegree" value="0" type="double"/>
+    	<param name="lidar/pitchDegree" value="0" type="double"/>
+    	<param name="lidar/yawDegree" value="0" type="double"/>
+    	<param name="lidar/x" value="0" type="double"/>
+    	<param name="lidar/y" value="0" type="double"/>
+    	<param name="lidar/z" value="0.1" type="double"/>
+    </node>
+	</group> 
+	
+	<group ns="drone3">
+    <arg name="mymodel" default="$(find uav_simulator)/urdf/xacro/drone_mid360_gpu.gazebo " />
+    <param name="quadcopter_description" command="$(find xacro)/xacro --inorder $(arg mymodel) topic:=drone3/scan"/>
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-urdf -model drone3 -param quadcopter_description -x 10.29 -y 1.36 -z 3.0"/>
+    <node name="keyboard_control" pkg="uav_simulator" type="keyboard_control" >
+    	<remap from="/CERLAB/quadcopter/cmd_vel" to="CERLAB/quadcopter/cmd_vel"/>
+    	<remap from="/CERLAB/quadcopter/land" to="CERLAB/quadcopter/land"/>
+    	<remap from="/CERLAB/quadcopter/posctrl" to="CERLAB/quadcopter/posctrl"/>
+    	<remap from="/CERLAB/quadcopter/reset" to="CERLAB/quadcopter/reset"/>
+    	<remap from="/CERLAB/quadcopter/takeoff" to="CERLAB/quadcopter/takeoff"/>
+    	<remap from="/CERLAB/quadcopter/vel_mode" to="CERLAB/quadcopter/vel_mode"/>
+    </node>
+    <node name="msg_translator" pkg="uav_simulator" type="msgTransForRacer" output="screen">
+    	<remap from="~pointonetopic" to="scan"/>
+    	<remap from="~pointtwotopic" to="pointcloud_lidar"/>
+    	<remap from="~lidarPointInWorld" to="pointcloud"/>
+    	<remap from="~odomtopic" to="CERLAB/quadcopter/odom"/>
+    	<remap from="~sensorPoseTopic" to="CERLAB/quadcopter/sensor_pose"/>
+    	<remap from="~quadCommand" to="/planning/pos_cmd_3"/>
+    	<remap from="~mavCommand" to="CERLAB/quadcopter/cmd_acc"/>
+    	<remap from="~setPointPose" to="CERLAB/quadcopter/setpoint_pose"/>
+    	<remap from="~takeoff" to="CERLAB/quadcopter/takeoff"/>
+    	
+    	<param name="lidar/rollDegree" value="0" type="double"/>
+    	<param name="lidar/pitchDegree" value="0" type="double"/>
+    	<param name="lidar/yawDegree" value="0" type="double"/>
+    	<param name="lidar/x" value="0" type="double"/>
+    	<param name="lidar/y" value="0" type="double"/>
+    	<param name="lidar/z" value="0.1" type="double"/>
+    </node>
+	</group> 
+	
+	<group ns="drone4">
+    <arg name="mymodel" default="$(find uav_simulator)/urdf/xacro/drone_mid360_gpu.gazebo " />
+    <param name="quadcopter_description" command="$(find xacro)/xacro --inorder $(arg mymodel) topic:=drone4/scan"/>
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-urdf -model drone4 -param quadcopter_description -x 30.75 -y 29.44 -z 3.0"/>
+    <node name="keyboard_control" pkg="uav_simulator" type="keyboard_control" >
+    	<remap from="/CERLAB/quadcopter/cmd_vel" to="CERLAB/quadcopter/cmd_vel"/>
+    	<remap from="/CERLAB/quadcopter/land" to="CERLAB/quadcopter/land"/>
+    	<remap from="/CERLAB/quadcopter/posctrl" to="CERLAB/quadcopter/posctrl"/>
+    	<remap from="/CERLAB/quadcopter/reset" to="CERLAB/quadcopter/reset"/>
+    	<remap from="/CERLAB/quadcopter/takeoff" to="CERLAB/quadcopter/takeoff"/>
+    	<remap from="/CERLAB/quadcopter/vel_mode" to="CERLAB/quadcopter/vel_mode"/>
+    </node>
+    <node name="msg_translator" pkg="uav_simulator" type="msgTransForRacer" output="screen">
+    	<remap from="~pointonetopic" to="scan"/>
+    	<remap from="~pointtwotopic" to="pointcloud_lidar"/>
+    	<remap from="~lidarPointInWorld" to="pointcloud"/>
+    	<remap from="~odomtopic" to="CERLAB/quadcopter/odom"/>
+    	<remap from="~sensorPoseTopic" to="CERLAB/quadcopter/sensor_pose"/>
+    	<remap from="~quadCommand" to="/planning/pos_cmd_4"/>
+    	<remap from="~mavCommand" to="CERLAB/quadcopter/cmd_acc"/>
+    	<remap from="~setPointPose" to="CERLAB/quadcopter/setpoint_pose"/>
+    	<remap from="~takeoff" to="CERLAB/quadcopter/takeoff"/>
+    	
+    	<param name="lidar/rollDegree" value="0" type="double"/>
+    	<param name="lidar/pitchDegree" value="0" type="double"/>
+    	<param name="lidar/yawDegree" value="0" type="double"/>
+    	<param name="lidar/x" value="0" type="double"/>
+    	<param name="lidar/y" value="0" type="double"/>
+    	<param name="lidar/z" value="0.1" type="double"/>
+    </node>
+	</group> 
+	
+	<group ns="drone5">
+    <arg name="mymodel" default="$(find uav_simulator)/urdf/xacro/drone_mid360_gpu.gazebo " />
+    <param name="quadcopter_description" command="$(find xacro)/xacro --inorder $(arg mymodel) topic:=drone5/scan"/>
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-urdf -model drone5 -param quadcopter_description -x 45.495 -y 48.033 -z 3.0"/>
+    <node name="keyboard_control" pkg="uav_simulator" type="keyboard_control" >
+    	<remap from="/CERLAB/quadcopter/cmd_vel" to="CERLAB/quadcopter/cmd_vel"/>
+    	<remap from="/CERLAB/quadcopter/land" to="CERLAB/quadcopter/land"/>
+    	<remap from="/CERLAB/quadcopter/posctrl" to="CERLAB/quadcopter/posctrl"/>
+    	<remap from="/CERLAB/quadcopter/reset" to="CERLAB/quadcopter/reset"/>
+    	<remap from="/CERLAB/quadcopter/takeoff" to="CERLAB/quadcopter/takeoff"/>
+    	<remap from="/CERLAB/quadcopter/vel_mode" to="CERLAB/quadcopter/vel_mode"/>
+    </node>
+    <node name="msg_translator" pkg="uav_simulator" type="msgTransForRacer" output="screen">
+    	<remap from="~pointonetopic" to="scan"/>
+    	<remap from="~pointtwotopic" to="pointcloud_lidar"/>
+    	<remap from="~lidarPointInWorld" to="pointcloud"/>
+    	<remap from="~odomtopic" to="CERLAB/quadcopter/odom"/>
+    	<remap from="~sensorPoseTopic" to="CERLAB/quadcopter/sensor_pose"/>
+    	<remap from="~quadCommand" to="/planning/pos_cmd_5"/>
+    	<remap from="~mavCommand" to="CERLAB/quadcopter/cmd_acc"/>
+    	<remap from="~setPointPose" to="CERLAB/quadcopter/setpoint_pose"/>
+    	<remap from="~takeoff" to="CERLAB/quadcopter/takeoff"/>
+    	
+    	<param name="lidar/rollDegree" value="0" type="double"/>
+    	<param name="lidar/pitchDegree" value="0" type="double"/>
+    	<param name="lidar/yawDegree" value="0" type="double"/>
+    	<param name="lidar/x" value="0" type="double"/>
+    	<param name="lidar/y" value="0" type="double"/>
+    	<param name="lidar/z" value="0.1" type="double"/>
+    </node>
+	</group> 
+</launch>
